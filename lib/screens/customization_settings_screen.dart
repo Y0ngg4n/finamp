@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import "package:super_sliver_list/super_sliver_list.dart";
 import 'package:finamp/components/LayoutSettingsScreen/CustomizationSettingsScreen/playback_speed_control_visibility_dropdown_list_tile.dart';
 import 'package:finamp/models/finamp_models.dart';
 import 'package:finamp/services/finamp_settings_helper.dart';
@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:finamp/l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
+import "package:super_sliver_list/super_sliver_list.dart";
 
 class CustomizationSettingsScreen extends StatefulWidget {
   const CustomizationSettingsScreen({super.key});
@@ -15,10 +16,12 @@ class CustomizationSettingsScreen extends StatefulWidget {
   static const routeName = "/settings/customization";
 
   @override
-  State<CustomizationSettingsScreen> createState() => _CustomizationSettingsScreenState();
+  State<CustomizationSettingsScreen> createState() =>
+      _CustomizationSettingsScreenState();
 }
 
-class _CustomizationSettingsScreenState extends State<CustomizationSettingsScreen> {
+class _CustomizationSettingsScreenState
+    extends State<CustomizationSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,12 +34,14 @@ class _CustomizationSettingsScreenState extends State<CustomizationSettingsScree
           ),
         ],
       ),
-      body: ListView(
+      body: SuperListView(
         children: [
           const PlaybackSpeedControlVisibilityDropdownListTile(),
           if (!Platform.isIOS) const ShowStopButtonOnMediaNotificationToggle(),
-          if (!Platform.isIOS) const ShowShuffleButtonOnMediaNotificationToggle(),
-          if (!Platform.isIOS) const ShowFavoriteButtonOnMediaNotificationToggle(),
+          if (!Platform.isIOS)
+            const ShowShuffleButtonOnMediaNotificationToggle(),
+          if (!Platform.isIOS)
+            const ShowFavoriteButtonOnMediaNotificationToggle(),
           const ShowSeekControlsOnMediaNotificationToggle(),
           const OneLineMarqueeTextSwitch(),
           const ReleaseDateFormatDropdownListTile(),
@@ -53,7 +58,9 @@ class OneLineMarqueeTextSwitch extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return SwitchListTile.adaptive(
       title: Text(AppLocalizations.of(context)!.oneLineMarqueeTextButton),
-      subtitle: Text(AppLocalizations.of(context)!.oneLineMarqueeTextButtonSubtitle),
+      subtitle: Text(
+        AppLocalizations.of(context)!.oneLineMarqueeTextButtonSubtitle,
+      ),
       value: ref.watch(finampSettingsProvider.oneLineMarqueeTextButton),
       onChanged: FinampSetters.setOneLineMarqueeTextButton,
     );
@@ -66,12 +73,19 @@ class ShowStopButtonOnMediaNotificationToggle extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SwitchListTile.adaptive(
-      title: Text(AppLocalizations.of(context)!.showStopButtonOnMediaNotificationTitle),
-      subtitle: Text(AppLocalizations.of(context)!.showStopButtonOnMediaNotificationSubtitle),
-      value: ref.watch(finampSettingsProvider.showStopButtonOnMediaNotification),
+      title: Text(
+        AppLocalizations.of(context)!.showStopButtonOnMediaNotificationTitle,
+      ),
+      subtitle: Text(
+        AppLocalizations.of(context)!.showStopButtonOnMediaNotificationSubtitle,
+      ),
+      value: ref.watch(
+        finampSettingsProvider.showStopButtonOnMediaNotification,
+      ),
       onChanged: (value) {
         FinampSetters.setShowStopButtonOnMediaNotification(value);
-        GetIt.instance<MusicPlayerBackgroundTask>().refreshPlaybackStateAndMediaNotification();
+        GetIt.instance<MusicPlayerBackgroundTask>()
+            .refreshPlaybackStateAndMediaNotification();
       },
     );
   }
@@ -83,12 +97,21 @@ class ShowShuffleButtonOnMediaNotificationToggle extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SwitchListTile.adaptive(
-      title: Text(AppLocalizations.of(context)!.showShuffleButtonOnMediaNotificationTitle),
-      subtitle: Text(AppLocalizations.of(context)!.showShuffleButtonOnMediaNotificationSubtitle),
-      value: ref.watch(finampSettingsProvider.showShuffleButtonOnMediaNotification),
+      title: Text(
+        AppLocalizations.of(context)!.showShuffleButtonOnMediaNotificationTitle,
+      ),
+      subtitle: Text(
+        AppLocalizations.of(
+          context,
+        )!.showShuffleButtonOnMediaNotificationSubtitle,
+      ),
+      value: ref.watch(
+        finampSettingsProvider.showShuffleButtonOnMediaNotification,
+      ),
       onChanged: (value) {
         FinampSetters.setShowShuffleButtonOnMediaNotification(value);
-        GetIt.instance<MusicPlayerBackgroundTask>().refreshPlaybackStateAndMediaNotification();
+        GetIt.instance<MusicPlayerBackgroundTask>()
+            .refreshPlaybackStateAndMediaNotification();
       },
     );
   }
@@ -100,12 +123,23 @@ class ShowFavoriteButtonOnMediaNotificationToggle extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SwitchListTile.adaptive(
-      title: Text(AppLocalizations.of(context)!.showFavoriteButtonOnMediaNotificationTitle),
-      subtitle: Text(AppLocalizations.of(context)!.showFavoriteButtonOnMediaNotificationSubtitle),
-      value: ref.watch(finampSettingsProvider.showFavoriteButtonOnMediaNotification),
+      title: Text(
+        AppLocalizations.of(
+          context,
+        )!.showFavoriteButtonOnMediaNotificationTitle,
+      ),
+      subtitle: Text(
+        AppLocalizations.of(
+          context,
+        )!.showFavoriteButtonOnMediaNotificationSubtitle,
+      ),
+      value: ref.watch(
+        finampSettingsProvider.showFavoriteButtonOnMediaNotification,
+      ),
       onChanged: (value) {
         FinampSetters.setShowFavoriteButtonOnMediaNotification(value);
-        GetIt.instance<MusicPlayerBackgroundTask>().refreshPlaybackStateAndMediaNotification();
+        GetIt.instance<MusicPlayerBackgroundTask>()
+            .refreshPlaybackStateAndMediaNotification();
       },
     );
   }
@@ -117,12 +151,21 @@ class ShowSeekControlsOnMediaNotificationToggle extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SwitchListTile.adaptive(
-      title: Text(AppLocalizations.of(context)!.showSeekControlsOnMediaNotificationTitle),
-      subtitle: Text(AppLocalizations.of(context)!.showSeekControlsOnMediaNotificationSubtitle),
-      value: ref.watch(finampSettingsProvider.showSeekControlsOnMediaNotification),
+      title: Text(
+        AppLocalizations.of(context)!.showSeekControlsOnMediaNotificationTitle,
+      ),
+      subtitle: Text(
+        AppLocalizations.of(
+          context,
+        )!.showSeekControlsOnMediaNotificationSubtitle,
+      ),
+      value: ref.watch(
+        finampSettingsProvider.showSeekControlsOnMediaNotification,
+      ),
       onChanged: (value) {
         FinampSetters.setShowSeekControlsOnMediaNotification(value);
-        GetIt.instance<MusicPlayerBackgroundTask>().refreshPlaybackStateAndMediaNotification();
+        GetIt.instance<MusicPlayerBackgroundTask>()
+            .refreshPlaybackStateAndMediaNotification();
       },
     );
   }
@@ -134,9 +177,17 @@ class ShowAlbumReleaseDateOnPlayerScreenToggle extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SwitchListTile.adaptive(
-      title: Text(AppLocalizations.of(context)!.showAlbumReleaseDateOnPlayerScreenTitle),
-      subtitle: Text(AppLocalizations.of(context)!.showAlbumReleaseDateOnPlayerScreenSubtitle),
-      value: ref.watch(finampSettingsProvider.showAlbumReleaseDateOnPlayerScreen),
+      title: Text(
+        AppLocalizations.of(context)!.showAlbumReleaseDateOnPlayerScreenTitle,
+      ),
+      subtitle: Text(
+        AppLocalizations.of(
+          context,
+        )!.showAlbumReleaseDateOnPlayerScreenSubtitle,
+      ),
+      value: ref.watch(
+        finampSettingsProvider.showAlbumReleaseDateOnPlayerScreen,
+      ),
       onChanged: FinampSetters.setShowAlbumReleaseDateOnPlayerScreen,
     );
   }
@@ -153,7 +204,12 @@ class ReleaseDateFormatDropdownListTile extends ConsumerWidget {
       trailing: DropdownButton<ReleaseDateFormat>(
         value: ref.watch(finampSettingsProvider.releaseDateFormat),
         items: ReleaseDateFormat.values
-            .map((e) => DropdownMenuItem<ReleaseDateFormat>(value: e, child: Text(e.toLocalisedString(context))))
+            .map(
+              (e) => DropdownMenuItem<ReleaseDateFormat>(
+                value: e,
+                child: Text(e.toLocalisedString(context)),
+              ),
+            )
             .toList(),
         onChanged: FinampSetters.setReleaseDateFormat.ifNonNull,
       ),
